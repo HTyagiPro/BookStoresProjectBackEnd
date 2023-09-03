@@ -65,13 +65,15 @@ public class Author {
 	}
 
 
+	//toString
+	
 	@Override
 	public String toString() {
-		return "Author:\n-------------------\nAuthor ID: " + authorID + "\nAuthor Name: " + authorName + "\nRecord Created On: " + recordCreatedOn + "\n-------------------\n";
+		return "Author:\n-------------------\n\tAuthor ID: " + authorID + "\n\tAuthor Name: " + authorName + "\n\tRecord Created On: " + recordCreatedOn + "\n";
 	}
     
     
-    //toString
+    
 	
 	
 	

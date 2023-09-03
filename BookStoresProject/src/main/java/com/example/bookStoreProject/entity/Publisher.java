@@ -67,15 +67,10 @@ public class Publisher {
 	
 	@Override
 	public String toString() {
-		return "Publisher:\n--------------------\nPublisher ID: " + publisherID + "\nPublisher Name: " + publisherName + "\nRecord Created On: " + recordCreatedOn + "\n--------------------\n";
+		return "Publisher:\n--------------------\n\tPublisher ID: " + publisherID + "\n\tPublisher Name: " + publisherName + "\n\tRecord Created On: " + recordCreatedOn + "\n";
 	}
     
-    
-    
-	
-    
-    
-    
+  
     
 }
 

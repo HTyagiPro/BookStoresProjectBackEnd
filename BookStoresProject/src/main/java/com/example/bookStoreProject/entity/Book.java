@@ -68,6 +68,21 @@ public class Book {
 		this.recordCreatedOn = recordCreatedOn;
 	}
 
+    
+
+	public Book(Long bookID, String title, String category, BigDecimal price, Long iSBNcode, Integer pageCount,
+			Integer publishedYear, String bookCondition, Timestamp recordCreatedOn) {
+		this.bookID = bookID;
+		this.title = title;
+		this.category = category;
+		this.price = price;
+		this.iSBNcode = iSBNcode;
+		this.pageCount = pageCount;
+		this.publishedYear = publishedYear;
+		this.bookCondition = bookCondition;
+		this.recordCreatedOn = recordCreatedOn;
+	}
+
 
 	//Getters, and Setters
     

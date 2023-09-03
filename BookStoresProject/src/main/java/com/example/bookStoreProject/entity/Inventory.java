@@ -40,6 +40,14 @@ public class Inventory {
 		this.stockLevelNew = stockLevelNew;
 		this.recordCreatedOn = recordCreatedOn;
 	}
+	
+	
+	public Inventory(Long inventoryID, Integer stockLevelUsed, Integer stockLevelNew, Timestamp recordCreatedOn) {
+		this.inventoryID = inventoryID;
+		this.stockLevelUsed = stockLevelUsed;
+		this.stockLevelNew = stockLevelNew;
+		this.recordCreatedOn = recordCreatedOn;
+	}
 
 
 	//getters, and setters
@@ -98,7 +106,7 @@ public class Inventory {
 	@Override
 	public String toString() {
 		return "Inventory:\n-------------------------\n\tInventory ID: " + inventoryID  + "\n\t" + book + "\n\tStock Level Used: " + stockLevelUsed
-				+ "\n\tStock Level New: " + stockLevelNew + "\n\tRecord Created On: " + recordCreatedOn + "\n-------------------------\n";
+				+ "\n\tStock Level New: " + stockLevelNew + "\n\tRecord Created On: " + recordCreatedOn + "\n";
 	}
 	
 }
