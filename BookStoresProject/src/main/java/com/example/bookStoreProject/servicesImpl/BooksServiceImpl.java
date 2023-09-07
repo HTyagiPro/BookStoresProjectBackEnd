@@ -100,4 +100,50 @@ public class BooksServiceImpl implements BooksService {
     	
     	return book;
     }
+
+	@Override
+	public ResponseEntity<Book> searchBook(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<Book>> searchBooks(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		
+		List<Book> blist = null;
+		try {
+			if(map.get("searchBy").equals("title")) {
+				blist = bookRepository.getBookByTitle(map.get("input"));
+				 if(Objects.isNull(blist)) {
+					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
+				}
+				
+				for(Book b:blist)
+					System.out.println(b);
+				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);	
+			}else	if(map.get("searchBy").equals("category")) {
+				 blist = bookRepository.getBookByCategory(map.get("input"));
+				if(Objects.isNull(blist)) {
+					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
+				}
+				for(Book b:blist)
+					System.out.println(b);
+				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);
+				
+			}else if(map.get("searchBy").equals("author")) {
+				 blist = bookRepository.getBookByAuthor(map.get("input"));
+				if(Objects.isNull(blist)) {
+					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
+				}
+				for(Book b:blist)
+					System.out.println(b);
+				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<List<Book>>(blist, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

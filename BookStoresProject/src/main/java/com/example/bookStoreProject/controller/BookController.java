@@ -64,6 +64,19 @@ public class BookController {
     }
     
     
+    @PostMapping("/searchBook")
+    public ResponseEntity<List<Book>> searchBooks(@RequestBody(required = true) Map<String, String> map){
+    	try {
+			return bookService.searchBooks(map);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	List<Book> blist = null;
+    	return new ResponseEntity<List<Book>>(blist, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    
     @ExceptionHandler(ResourceNotModifiedException.class)
 	public HttpStatus notModifiedExceptionHandler() {
 		return HttpStatus.NOT_MODIFIED;

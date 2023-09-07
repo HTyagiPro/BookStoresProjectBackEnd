@@ -14,5 +14,7 @@ public interface BooksService {
     Book updateBook(Long bookId, Book book);
     void deleteBook(Long bookId);
     public ResponseEntity<String> addBooks(Map<String, String>map);
+    public ResponseEntity<Book> searchBook(Map<String, String>map);
+    public ResponseEntity<List<Book>> searchBooks(Map<String, String>map);
 }
 
