@@ -2,6 +2,8 @@ package com.example.bookStoreProject.entity;
 
 //import java.sql.Timestamp;
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +19,7 @@ public class Author {
     private String authorName;
 
     @Column(name = "recordCreatedOn", nullable = false)
-    private Timestamp recordCreatedOn;
+    private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
 
 	
     // Constructors

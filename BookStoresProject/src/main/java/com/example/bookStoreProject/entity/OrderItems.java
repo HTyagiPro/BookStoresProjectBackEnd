@@ -2,6 +2,7 @@ package com.example.bookStoreProject.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -33,7 +34,7 @@ public class OrderItems {
     private BigDecimal priceOfUnitQuantity;
 
     @Column(name = "recordCreatedOn", nullable = false)
-    private Timestamp recordCreatedOn;
+    private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
 
     //constructor
 	public OrderItems() {

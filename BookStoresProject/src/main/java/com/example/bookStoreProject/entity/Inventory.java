@@ -1,6 +1,7 @@
 package com.example.bookStoreProject.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -24,7 +25,7 @@ public class Inventory {
     private Integer stockLevelNew;
 
     @Column(name = "recordCreatedOn", nullable = false)
-    private Timestamp recordCreatedOn;
+    private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
 
 	
     // Constructors

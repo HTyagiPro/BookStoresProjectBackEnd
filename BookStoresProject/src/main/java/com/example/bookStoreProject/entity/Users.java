@@ -21,23 +21,120 @@ public class Users {
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
+    
+    @Column(name = "name", unique = false, nullable = false)
+    private String name;
 
-    @Column(name = "registrationDate", nullable = false)
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "phoneNo", unique = true, nullable = false)
+    private Long phoneNo;
+    
+    @Column(name = "status", unique = false, nullable = false)
+    private String status;
+    
+    @Column(name = "role", unique = false, nullable = false)
+    private String role;
+
+
+    @Column(name = "registrationDate", nullable = true)
     private LocalDateTime registrationDate;
 
     // Constructors, 
     public Users() {
 	}
 	
-    public Users(Long userID, String username, String passcode, String email, LocalDateTime registrationDate) {
+    
+    
+    public Users(Long userID, String username, String passcode, String email, String name, String address, Long phoneNo,
+			LocalDateTime registrationDate) {
 		this.userID = userID;
 		this.username = username;
 		this.passcode = passcode;
 		this.email = email;
+		this.name = name;
+		this.address = address;
+		this.phoneNo = phoneNo;
 		this.registrationDate = registrationDate;
 	}
-    
-    //getters, and setters
+
+
+
+	public Users(Long userID, String username, String passcode, String email, String name, String address,
+			Long phoneNo) {
+		this.userID = userID;
+		this.username = username;
+		this.passcode = passcode;
+		this.email = email;
+		this.name = name;
+		this.address = address;
+		this.phoneNo = phoneNo;
+	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	public Long getPhoneNo() {
+		return phoneNo;
+	}
+
+
+
+	public void setPhoneNo(Long phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+
+
+	//getters, and setters
 	public Long getUserID() {
 		return userID;
 	}
@@ -77,13 +174,15 @@ public class Users {
 	public void setRegistrationDate(LocalDateTime registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Users:\n------------------------\n\tUser ID: " + userID + "\n\tUsername: " + username + "\n\tPasscode: " + passcode + "\n\tEmail: " + email
+		return "Users:\n------------------------\n\tUser ID: " + userID  +"\n\tName: " + name +"\n\t Phone No.:" + phoneNo + "\n\tAddress: " + address + "\n\tUsername: "+ username + "\n\tPasscode: " + passcode + "\n\tEmail: " + email
 				+ "\n\tRegistration Date: " + registrationDate + "\n------------------------\n";
 	} 
-    
+	
+	
+	
     
 }
 

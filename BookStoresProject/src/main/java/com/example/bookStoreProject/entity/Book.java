@@ -3,6 +3,8 @@ package com.example.bookStoreProject.entity;
 import java.math.BigDecimal;
 //import java.security.Timestamp;
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,17 +36,31 @@ public class Book {
     @Column(name = "ISBNcode", unique = true, nullable = false)
     private Long iSBNcode;
 
-    @Column(name = "pageCount", nullable = false)
+    @Column(name = "page_Count", nullable = false)
     private Integer pageCount;
 
-    @Column(name = "publishedYear", nullable = false)
+    @Column(name = "published_Year", nullable = false)
     private Integer publishedYear;
 
-    @Column(name = "bookCondition", nullable = false)
+    @Column(name = "book_Condition", nullable = false)
     private String bookCondition;
+    
+    @Column(name = "images", nullable = true)
+    private String images;
+    
+    
 
-    @Column(name = "recordCreatedOn", nullable = false)
-    private Timestamp recordCreatedOn;
+    public String getImages() {
+		return images;
+	}
+
+
+	public void setImages(String images) {
+		this.images = images;
+	}
+
+	@Column(name = "recordCreatedOn", nullable = true)
+    private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
 
     
     // Constructors,

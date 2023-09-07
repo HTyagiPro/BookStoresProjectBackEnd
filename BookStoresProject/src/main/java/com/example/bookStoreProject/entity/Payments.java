@@ -3,6 +3,7 @@ package com.example.bookStoreProject.entity;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -33,8 +34,7 @@ public class Payments {
     private String status;
 
     @Column(name = "recordCreatedOn", nullable = false)
-    private Timestamp recordCreatedOn;
-
+    private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
     // Constructors
 	
     public Payments() {
