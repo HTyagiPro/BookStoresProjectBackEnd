@@ -1,6 +1,7 @@
 package com.example.bookStoreProject.servicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.bookStoreProject.entity.Inventory;
@@ -8,6 +9,7 @@ import com.example.bookStoreProject.repository.InventoryRepository;
 import com.example.bookStoreProject.services.InventoryService;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -46,4 +48,15 @@ public class InventoryServiceImpl implements InventoryService {
     public void deleteInventoryItem(Long inventoryItemId) {
         inventoryRepository.deleteById(inventoryItemId);
     }
+
+	@Override
+	public ResponseEntity<String> updateInv(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }

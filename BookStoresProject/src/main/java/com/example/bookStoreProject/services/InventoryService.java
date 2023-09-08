@@ -1,6 +1,9 @@
 package com.example.bookStoreProject.services;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 
 import com.example.bookStoreProject.entity.Inventory;
 
@@ -10,4 +13,5 @@ public interface InventoryService {
     Inventory createInventoryItem(Inventory inventoryItem);
     Inventory updateInventoryItem(Long inventoryItemId, Inventory inventoryItem);
     void deleteInventoryItem(Long inventoryItemId);
+    public ResponseEntity<String> updateInv(Map<String, String>map);
 }

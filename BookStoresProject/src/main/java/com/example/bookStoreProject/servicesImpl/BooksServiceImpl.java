@@ -97,7 +97,7 @@ public class BooksServiceImpl implements BooksService {
     	book.setAuthor(author.get());
     	book.setPublisher(publisher.get());
     	book.setPageCount(Integer.parseInt(map.get("pages")));
-    	
+    	book.setImages(map.get("images"));    	
     	return book;
     }
 
