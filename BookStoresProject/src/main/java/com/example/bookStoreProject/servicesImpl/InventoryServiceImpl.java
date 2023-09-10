@@ -1,6 +1,7 @@
 package com.example.bookStoreProject.servicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -53,10 +54,15 @@ public class InventoryServiceImpl implements InventoryService {
 	public ResponseEntity<String> updateInv(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		try {
-			
+			Inventory inventory = inventoryRepository.getInventoryByBookID(Long.parseLong(map.get("book")));
+			inventory.setStockLevelNew(Integer.parseInt(map.get("new")));
+			inventory.setStockLevelUsed(Integer.parseInt(map.get("used")));
+			inventoryRepository.save(inventory);
+			return new ResponseEntity<String>("Inventory Updated Successfully!!!", HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
-		return null;
+		return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

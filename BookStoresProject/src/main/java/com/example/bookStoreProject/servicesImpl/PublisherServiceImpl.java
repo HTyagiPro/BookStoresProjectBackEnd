@@ -56,7 +56,6 @@ public class PublisherServiceImpl implements PublisherService {
 		try {
 			Publisher publisher = new Publisher();
 			publisher.setPublisherName(map.get("publisherName"));
-			System.out.println(publisher);
 			publisherRepository.save(publisher);
 			return new ResponseEntity<String>("Publisher Added Successfully!!!", HttpStatus.OK);
 			
@@ -66,5 +65,12 @@ public class PublisherServiceImpl implements PublisherService {
 		}
 
 		return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@Override
+	public Publisher getAddedPublisher() {
+		// TODO Auto-generated method stub
+		
+		return publisherRepository.getAddedPublisher();
 	}
 }

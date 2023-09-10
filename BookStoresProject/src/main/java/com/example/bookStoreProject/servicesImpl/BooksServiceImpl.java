@@ -68,7 +68,6 @@ public class BooksServiceImpl implements BooksService {
     public ResponseEntity<String> addBooks(Map<String, String>map) {
     	try {
 			Book book = configureBook(map);
-			System.out.println(book);
 			if(Objects.isNull(book) == false) {
 				bookRepository.save(book);
 				return new ResponseEntity<String>("Book Added Successfully!!!", HttpStatus.OK);
@@ -118,17 +117,12 @@ public class BooksServiceImpl implements BooksService {
 				 if(Objects.isNull(blist)) {
 					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
 				}
-				
-				for(Book b:blist)
-					System.out.println(b);
 				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);	
 			}else	if(map.get("searchBy").equals("category")) {
 				 blist = bookRepository.getBookByCategory(map.get("input"));
 				if(Objects.isNull(blist)) {
 					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
 				}
-				for(Book b:blist)
-					System.out.println(b);
 				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);
 				
 			}else if(map.get("searchBy").equals("author")) {
@@ -136,8 +130,6 @@ public class BooksServiceImpl implements BooksService {
 				if(Objects.isNull(blist)) {
 					return new ResponseEntity<List<Book>>(blist, HttpStatus.NOT_FOUND);
 				}
-				for(Book b:blist)
-					System.out.println(b);
 				return new ResponseEntity<List<Book>>(blist, HttpStatus.OK);
 			}
 		} catch (Exception e) {

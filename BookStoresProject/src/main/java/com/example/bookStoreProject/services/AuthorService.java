@@ -14,4 +14,5 @@ public interface AuthorService {
     Author updateAuthor(Long authorId, Author author);
     void deleteAuthor(Long authorId);
     public ResponseEntity<String> addAuthor(Map<String, String>map);
+    public Author getAddedAuthor();
 }

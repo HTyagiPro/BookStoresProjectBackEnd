@@ -10,6 +10,7 @@ import com.example.bookStoreProject.exception.ResourceNotFoundException;
 import com.example.bookStoreProject.exception.ResourceNotModifiedException;
 import com.example.bookStoreProject.services.PublisherService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -63,6 +64,16 @@ public class PublisherController {
     	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
+    @GetMapping("/getAddedPublisher")
+    public Publisher getAddedPublisher() {
+    	try {
+			return publisherService.getAddedPublisher();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	return new Publisher();
+    }
     
     
     @ExceptionHandler(ResourceNotModifiedException.class)

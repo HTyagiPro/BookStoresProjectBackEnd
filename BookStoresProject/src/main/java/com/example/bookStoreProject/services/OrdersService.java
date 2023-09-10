@@ -14,4 +14,6 @@ public interface OrdersService {
     Orders updateOrder(Long orderId, Orders order);
     void deleteOrder(Long orderId);
     public ResponseEntity<String> placeOrder(Map<String, String> map);
+    public Map<String, Object> getPlacedOrderDetails();
+    public List<Map<Object, Object>> getOrderHistory();
 }

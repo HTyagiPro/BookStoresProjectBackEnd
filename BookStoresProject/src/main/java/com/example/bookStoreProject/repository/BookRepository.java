@@ -14,14 +14,14 @@ import com.example.bookStoreProject.entity.Book;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     // Define custom queries or methods if needed
-	@Query(nativeQuery = true,value = "select * from books where title=:title")
+	@Query(nativeQuery = true,value = "select * from books where title like %:title% ")
 	List<Book> getBookByTitle(@Param("title")String title);
 	
 	
-	@Query(nativeQuery = true,value = "select * from books where category=:category")
+	@Query(nativeQuery = true,value = "select * from books where category like %:category%")
 	List<Book> getBookByCategory(@Param("category")String category);
 	
-	@Query(nativeQuery = true,value = "select * from books inner join author on books.authorID = author.authorID where author_Name=:author_Name")
+	@Query(nativeQuery = true,value = "select * from books inner join author on books.authorID = author.authorID where author_Name like %:author_Name%")
 	List<Book> getBookByAuthor(@Param("author_Name")String author_Name);
 	
 	

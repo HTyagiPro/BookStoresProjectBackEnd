@@ -89,11 +89,11 @@ public class OrdersServiceImpl implements OrdersService {
 			order.setCustomer(customer);
 			order.setShippingAddress(map.get("address"));
 			order.setOrderDate(LocalDateTime.now()); 
-			double discount = 10*Double.valueOf((book.get().getPrice()).toString())/100;
+			double discount = 10*Double.valueOf((book.get().getPrice()).toString())*Integer.parseInt(map.get("quantity"))/100;
 			order.setDiscountAmount(BigDecimal.valueOf(discount));
-			double totalAmount = Integer.parseInt(map.get("quantity"))*Double.valueOf(book.get().getPrice().toString()) + Double.parseDouble(map.get("tax"))*Double.valueOf(book.get().getPrice().toString()) - discount ;
+			double totalAmount = Integer.parseInt(map.get("quantity"))*Double.valueOf(book.get().getPrice().toString()) + Double.parseDouble(map.get("tax"))*Double.valueOf(book.get().getPrice().toString())*Integer.parseInt(map.get("quantity"))/100 - discount ;
 			order.setTotalAmount(BigDecimal.valueOf(totalAmount));
-			order.setTaxAmount(BigDecimal.valueOf(Double.valueOf(map.get("tax"))));
+			order.setTaxAmount(BigDecimal.valueOf(Double.parseDouble(map.get("tax"))*Double.valueOf(book.get().getPrice().toString())*Integer.parseInt(map.get("quantity"))/100));
 			
 			
 			OrderItems orderItem = new OrderItems();
@@ -124,28 +124,41 @@ public class OrdersServiceImpl implements OrdersService {
 				ordersRepository.save(order);
 				orderItemsRepository.save(orderItem);
 				paymentsRepository.save(payment);
+				return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
 			}else if(map.get("condition").equals("Used") && inventory.getStockLevelUsed() > Integer.parseInt(map.get("quantity"))) {
 				inventory.setStockLevelUsed(inventory.getStockLevelUsed() - Integer.parseInt(map.get("quantity")));
 				inventoryRepository.save(inventory);
 				ordersRepository.save(order);
 				orderItemsRepository.save(orderItem);
 				paymentsRepository.save(payment);
-			}
-			
-			System.out.println(order);
-			System.out.println(orderItem);
-			System.out.println(payment);
-			System.out.println(book.get());
-			System.out.println(customer);
-			
-			return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
-			
+				return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+			}			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			
 		}
 		return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@Override
+	public Map<String, Object> getPlacedOrderDetails() {
+		// TODO Auto-generated method stub
+		
+		return ordersRepository.getOrderDetails();
+	}
+
+	@Override
+	public List<Map<Object, Object>> getOrderHistory() {
+		// TODO Auto-generated method stub
+		try {
+			return ordersRepository.getOrderHistory();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
     
     

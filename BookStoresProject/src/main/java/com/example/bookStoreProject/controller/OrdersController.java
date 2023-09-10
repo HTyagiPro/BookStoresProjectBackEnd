@@ -63,6 +63,16 @@ public class OrdersController {
     	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
+    @GetMapping("/getOrderHistory")
+    public List<Map<Object, Object>> getOrderHistory(){
+    	return ordersService.getOrderHistory();
+    }
+    
+    @GetMapping("/getPlacedOrder")
+    public Map<String, Object> getPlacedOrder(){
+    	return ordersService.getPlacedOrderDetails();
+    }
+    
     
     @ExceptionHandler(ResourceNotModifiedException.class)
 	public HttpStatus notModifiedExceptionHandler() {

@@ -14,5 +14,6 @@ public interface PublisherService {
     Publisher updatePublisher(Long publisherId, Publisher publisher);
     void deletePublisher(Long publisherId);
 	ResponseEntity<String> addPublisher(Map<String, String> map);
+	public Publisher getAddedPublisher();
 }
 

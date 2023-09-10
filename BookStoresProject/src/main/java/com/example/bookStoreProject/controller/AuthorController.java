@@ -63,6 +63,11 @@ public class AuthorController {
     	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
+    @GetMapping("/getAddedAuthor")
+    public Author getAddedAuthor() {
+    	return authorService.getAddedAuthor();
+    	}
+    
     @ExceptionHandler(ResourceNotModifiedException.class)
 	public HttpStatus notModifiedExceptionHandler() {
 		return HttpStatus.NOT_MODIFIED;

@@ -11,6 +11,7 @@ import com.example.bookStoreProject.exception.ResourceNotModifiedException;
 import com.example.bookStoreProject.services.InventoryService;
 
 import java.util.List;
+import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/inventory")
@@ -50,6 +51,18 @@ public class InventoryController {
         inventoryService.deleteInventoryItem(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @PostMapping("/updateInv")
+    public ResponseEntity<String> updateInv(@RequestBody(required = true)Map<String, String> map){
+    	try {
+			return inventoryService.updateInv(map);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
     
     @ExceptionHandler(ResourceNotModifiedException.class)
 	public HttpStatus notModifiedExceptionHandler() {

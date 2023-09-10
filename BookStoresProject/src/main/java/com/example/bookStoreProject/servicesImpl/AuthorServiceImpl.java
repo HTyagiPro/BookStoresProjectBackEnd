@@ -56,7 +56,6 @@ public class AuthorServiceImpl implements AuthorService {
 		try {
 			Author author = new Author();
 			author.setAuthorName(map.get("authorName"));
-			System.err.println(author);
 			authorRepository.save(author);
 			return new ResponseEntity<String>("Author Added Successfully!!!", HttpStatus.OK);
 			
@@ -66,6 +65,12 @@ public class AuthorServiceImpl implements AuthorService {
 		}
 
 		return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@Override
+	public Author getAddedAuthor() {
+		// TODO Auto-generated method stub
+		return authorRepository.getAddedAuthor();
 	}
 }
 
