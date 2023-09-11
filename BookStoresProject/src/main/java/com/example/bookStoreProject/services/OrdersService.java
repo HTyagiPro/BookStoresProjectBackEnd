@@ -16,4 +16,5 @@ public interface OrdersService {
     public ResponseEntity<String> placeOrder(Map<String, String> map);
     public Map<String, Object> getPlacedOrderDetails();
     public List<Map<Object, Object>> getOrderHistory();
+    public ResponseEntity<String> placeOrderByCart(Map<String, String> map);
 }

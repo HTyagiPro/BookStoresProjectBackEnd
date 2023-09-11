@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.bookStoreProject.entity.Author;
 import com.example.bookStoreProject.entity.Orders;
 
 @Repository
@@ -37,4 +38,13 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     "LEFT JOIN books b ON b.bookID = oi.bookID ",
 	        nativeQuery = true)
 	   public List<Map<Object, Object>> getOrderHistory();
+	
+	
+	@Query(nativeQuery = true,
+			value = "SELECT * FROM Orders " +
+            "ORDER BY OrderID DESC " +
+            "LIMIT 1")
+	public Orders getLastOrder();
+	
+	
 }

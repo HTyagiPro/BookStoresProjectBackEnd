@@ -63,6 +63,18 @@ public class OrdersController {
     	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
+    @PostMapping("/placeOrderByCart")
+    public ResponseEntity<String> placeOrderByCart(@RequestBody(required = true) Map<String, String> map){
+    	try {
+			return ordersService.placeOrderByCart(map);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    
     @GetMapping("/getOrderHistory")
     public List<Map<Object, Object>> getOrderHistory(){
     	return ordersService.getOrderHistory();

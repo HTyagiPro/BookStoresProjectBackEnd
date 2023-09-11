@@ -3,15 +3,22 @@ package com.example.bookStoreProject.servicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.bookStoreProject.entity.Book;
+import com.example.bookStoreProject.entity.CartItem;
 import com.example.bookStoreProject.entity.Customer;
 import com.example.bookStoreProject.entity.Inventory;
 import com.example.bookStoreProject.entity.OrderItems;
 import com.example.bookStoreProject.entity.Orders;
 import com.example.bookStoreProject.entity.Payments;
+import com.example.bookStoreProject.entity.Users;
+import com.example.bookStoreProject.jwt.JwtUtil;
+import com.example.bookStoreProject.jwt.MyUserDetailsService;
 import com.example.bookStoreProject.repository.BookRepository;
+import com.example.bookStoreProject.repository.CartItemRepository;
 import com.example.bookStoreProject.repository.CustomerRepository;
 import com.example.bookStoreProject.repository.InventoryRepository;
 import com.example.bookStoreProject.repository.OrderItemsRepository;
@@ -35,6 +42,9 @@ public class OrdersServiceImpl implements OrdersService {
         this.ordersRepository = ordersRepository;
     }
     
+    
+    @Autowired 
+    private JwtUtil jwtUtil;
     @Autowired
     CustomerRepository customerRepository;
     
@@ -49,6 +59,12 @@ public class OrdersServiceImpl implements OrdersService {
     
     @Autowired
     InventoryRepository inventoryRepository; 
+    
+    @Autowired
+    MyUserDetailsService myUserDetailsService;
+    
+    @Autowired
+    CartItemRepository cartItemRepository;
 
     @Override
     public List<Orders> getAllOrders() {
@@ -159,6 +175,94 @@ public class OrdersServiceImpl implements OrdersService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> placeOrderByCart(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		Users user = myUserDetailsService.getUserDetails();
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String token = authentication.getName();
+//		jwtUtil.extractUsername(token)
+		
+
+		
+		
+		Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
+		List<CartItem> cart = cartItemRepository.getCartByCustomerID(customer.getCustomerID());
+		
+		double subtotal = 0;
+		for(CartItem c :cart) {
+			subtotal = subtotal + Double.valueOf(c.getBook().getPrice().toString())*Double.valueOf(c.getQuantity());
+		}
+		
+		double discount = 10*subtotal/100;
+		
+		double totalAmount = subtotal + 18*subtotal/100 - discount ;
+		
+		
+		Orders order = new Orders();
+		order.setCustomer(customer);
+		order.setShippingAddress(map.get("address"));
+		order.setOrderDate(LocalDateTime.now());
+		order.setDiscountAmount(BigDecimal.valueOf(discount));
+		order.setTotalAmount(BigDecimal.valueOf(totalAmount));
+		order.setTaxAmount(BigDecimal.valueOf(18*subtotal/100));
+		ordersRepository.save(order);
+		
+		order = ordersRepository.getLastOrder();
+		
+		for(CartItem c : cart) {
+			OrderItems orderItem = new OrderItems();
+			orderItem.setBook(c.getBook());
+			orderItem.setOrder(order);
+			orderItem.setCustomer(customer);
+			orderItem.setQuantity(c.getQuantity());
+			orderItem.setPriceOfUnitQuantity(c.getBook().getPrice());
+			orderItemsRepository.save(orderItem);
+			
+			Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
+			
+			System.out.println("Here correct ->"+c.getBook().getBookID());
+//			if(inventory.getStockLevelNew() > c.getQuantity()) {
+//				System.out.println("Here wrong -----------------");
+//				inventory.setStockLevelNew(inventory.getStockLevelNew()- c.getQuantity());
+//				inventoryRepository.save(inventory);
+//				orderItemsRepository.save(orderItem);
+//				
+//			}else {
+//				return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
+//			}
+			System.out.println(c);
+			System.out.println("-------------------------");
+			
+			
+		}
+		
+		Payments payment = new Payments();
+		payment.setCustomer(customer);
+		payment.setOrder(order);
+		payment.setPaymentDate(LocalDateTime.now());
+		payment.setAmount(BigDecimal.valueOf(totalAmount));
+		payment.setStatus("Paid");
+		
+		paymentsRepository.save(payment);
+		
+		System.out.println("want this");
+		
+		if(Objects.isNull(payment) || Objects.isNull(order) || Objects.isNull(customer)) {
+			return new ResponseEntity<String>("Order Not Placed, Please try after sometime !!!", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+			
+			cartItemRepository.deleteCartByCustomerID(customer.getCustomerID());
+			//Printing objects
+			System.out.println(customer);
+			System.out.println(order);
+			System.out.println(payment);
+			System.out.println(customer);
+			return new ResponseEntity<String>("Order Placed Successfully!!!", HttpStatus.OK);
+		
+		
 	}
     
     

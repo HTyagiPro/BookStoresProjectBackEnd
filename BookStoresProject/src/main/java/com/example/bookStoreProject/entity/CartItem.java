@@ -15,8 +15,7 @@ public class CartItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "priceOfUnitQuantity", nullable = false)
-    private BigDecimal priceOfUnitQuantity;
+  
 
     @Column(name = "recordCreatedOn", nullable = false)
     private Timestamp recordCreatedOn;
@@ -26,11 +25,24 @@ public class CartItem {
     @JoinColumn(name = "bookID", referencedColumnName = "bookID")
     private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "customerID", referencedColumnName = "customerID")
+    private Customer customer;
+    
 
-	public CartItem(Long id, Integer quantity, BigDecimal priceOfUnitQuantity, Timestamp recordCreatedOn, Book book) {
+    public CartItem(Long id, Integer quantity, Timestamp recordCreatedOn, Book book,
+			Customer customer) {
 		this.id = id;
 		this.quantity = quantity;
-		this.priceOfUnitQuantity = priceOfUnitQuantity;
+		this.recordCreatedOn = recordCreatedOn;
+		this.book = book;
+		this.customer = customer;
+	}
+
+
+	public CartItem(Long id, Integer quantity, Timestamp recordCreatedOn, Book book) {
+		this.id = id;
+		this.quantity = quantity;
 		this.recordCreatedOn = recordCreatedOn;
 		this.book = book;
 	}
@@ -43,9 +55,21 @@ public class CartItem {
 	public CartItem(Long id, Integer quantity, BigDecimal priceOfUnitQuantity, Timestamp recordCreatedOn) {
 		this.id = id;
 		this.quantity = quantity;
-		this.priceOfUnitQuantity = priceOfUnitQuantity;
 		this.recordCreatedOn = recordCreatedOn;
 	}
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	
+	
 
 
 	public Long getId() {
@@ -66,17 +90,6 @@ public class CartItem {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-
-
-	public BigDecimal getPriceOfUnitQuantity() {
-		return priceOfUnitQuantity;
-	}
-
-
-	public void setPriceOfUnitQuantity(BigDecimal priceOfUnitQuantity) {
-		this.priceOfUnitQuantity = priceOfUnitQuantity;
-	}
-
 
 	public Timestamp getRecordCreatedOn() {
 		return recordCreatedOn;
@@ -100,8 +113,7 @@ public class CartItem {
 
 	@Override
 	public String toString() {
-		return "Cart Item\n----------------------\n\tID: " + id + "\n\tQuantity: " + quantity + "\n\tPrice Of Unit Quantity: " + priceOfUnitQuantity
-				+ "\n\tRecord Created On: " + recordCreatedOn + "\n\tBook: " + book + "\n";
+		return "Cart Item\n----------------------\n\tID: " + id +"\n\t" +customer + "\n\tQuantity: " + quantity + "\n\tRecord Created On: " + recordCreatedOn + "\n\tBook: " + book + "\n";
 	}
     
     
