@@ -223,7 +223,7 @@ public class OrdersServiceImpl implements OrdersService {
 			
 			Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
 			
-			System.out.println("Here correct ->"+c.getBook().getBookID());
+			
 //			if(inventory.getStockLevelNew() > c.getQuantity()) {
 //				System.out.println("Here wrong -----------------");
 //				inventory.setStockLevelNew(inventory.getStockLevelNew()- c.getQuantity());
@@ -233,11 +233,7 @@ public class OrdersServiceImpl implements OrdersService {
 //			}else {
 //				return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
 //			}
-			System.out.println(c);
-			System.out.println("-------------------------");
-			
-			
-		}
+	}
 		
 		Payments payment = new Payments();
 		payment.setCustomer(customer);
@@ -245,24 +241,16 @@ public class OrdersServiceImpl implements OrdersService {
 		payment.setPaymentDate(LocalDateTime.now());
 		payment.setAmount(BigDecimal.valueOf(totalAmount));
 		payment.setStatus("Paid");
-		
 		paymentsRepository.save(payment);
 		
-		System.out.println("want this");
 		
 		if(Objects.isNull(payment) || Objects.isNull(order) || Objects.isNull(customer)) {
 			return new ResponseEntity<String>("Order Not Placed, Please try after sometime !!!", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 			
 			cartItemRepository.deleteCartByCustomerID(customer.getCustomerID());
-			//Printing objects
-			System.out.println(customer);
-			System.out.println(order);
-			System.out.println(payment);
-			System.out.println(customer);
 			return new ResponseEntity<String>("Order Placed Successfully!!!", HttpStatus.OK);
-		
-		
+	
 	}
     
     
