@@ -14,5 +14,6 @@ public interface CustomerService {
     Customer updateCustomer(Long customerId, Customer customer);
     void deleteCustomer(Long customerId);
     public ResponseEntity<String> addCustomer(Map<String, String>map);
+    public ResponseEntity<Customer> getAddedCustomer();
 }
 

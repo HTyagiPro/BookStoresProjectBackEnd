@@ -252,6 +252,20 @@ public class OrdersServiceImpl implements OrdersService {
 			return new ResponseEntity<String>("Order Placed Successfully!!!", HttpStatus.OK);
 	
 	}
+
+	@Override
+	public List<Map<Object, Object>> getMyOrderHistory() {
+		// TODO Auto-generated method stub
+		try {
+			Users user = myUserDetailsService.getUserDetails();
+			Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
+			return ordersRepository.getMyOrderHistory(customer.getCustomerID());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
     
     
     

@@ -75,6 +75,8 @@ public class OrdersController {
     }
     
     
+    
+    
     @GetMapping("/getOrderHistory")
     public List<Map<Object, Object>> getOrderHistory(){
     	return ordersService.getOrderHistory();
@@ -83,6 +85,12 @@ public class OrdersController {
     @GetMapping("/getPlacedOrder")
     public Map<String, Object> getPlacedOrder(){
     	return ordersService.getPlacedOrderDetails();
+    }
+    
+
+    @GetMapping("/getMyOrderHistory")
+    public List<Map<Object, Object>> getMyOrderHistory(){
+    	return ordersService.getMyOrderHistory();
     }
     
     

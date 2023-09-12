@@ -52,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-	@SuppressWarnings("null")
 	@Override
 	public ResponseEntity<String> addCustomer(Map<String, String> map) {
 		try {
@@ -64,7 +63,6 @@ public class CustomerServiceImpl implements CustomerService {
 				customer.setEmail(map.get("email"));
 				customer.setCustAddress(map.get("address"));
 				customer.setContactNo(Long.parseLong(map.get("phoneNo")));
-				System.out.println(customer);
 				customerRepository.save(customer);
 				return new ResponseEntity<String>("Customer Added Successfully!!!", HttpStatus.OK);
 			}
@@ -74,6 +72,18 @@ public class CustomerServiceImpl implements CustomerService {
 			e.printStackTrace();
 		}
     	return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@Override
+	public ResponseEntity<Customer> getAddedCustomer() {
+		// TODO Auto-generated method stub
+		try {
+			return new ResponseEntity<Customer>(customerRepository.getAddedCustomer(), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+		e.printStackTrace();
+		}
+		return new ResponseEntity<Customer>(new Customer(), HttpStatus.OK);
 	}
 }
 

@@ -65,6 +65,18 @@ public class CustomerController {
     }
     
     
+    @GetMapping("/getAddedCustomer")
+    public ResponseEntity<Customer> getAddedCustomer() {
+    	try {
+			return customerService.getAddedCustomer();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	return new ResponseEntity<Customer>(new Customer(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    
     @ExceptionHandler(ResourceNotModifiedException.class)
 	public HttpStatus notModifiedExceptionHandler() {
 		return HttpStatus.NOT_MODIFIED;
