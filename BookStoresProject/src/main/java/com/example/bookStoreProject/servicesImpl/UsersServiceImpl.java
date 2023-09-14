@@ -83,7 +83,7 @@ public class UsersServiceImpl implements UsersService {
 				Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(map.get("username"), map.get("password")));
 				if (authentication.isAuthenticated()) {
 					if (myUserDetailsService.getUserDetails().getUsername() != null) {
-						return new ResponseEntity<String>(jwtUtil.generateToken(myUserDetailsService.getUserDetails().getUsername()),HttpStatus.OK);
+						return new ResponseEntity<String>(jwtUtil.generateToken(myUserDetailsService.getUserDetails().getUsername(),myUserDetailsService.getUserDetails().getRole()),HttpStatus.OK);
 					}
 				}
 			}
@@ -135,7 +135,7 @@ public class UsersServiceImpl implements UsersService {
 			return user;
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return null;
 	}

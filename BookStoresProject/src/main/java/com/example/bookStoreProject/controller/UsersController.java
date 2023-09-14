@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.bookStoreProject.entity.Users;
 import com.example.bookStoreProject.exception.ResourceNotFoundException;
 import com.example.bookStoreProject.exception.ResourceNotModifiedException;
+import com.example.bookStoreProject.jwt.JwtFilter;
 import com.example.bookStoreProject.services.UsersService;
 
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
+    
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Autowired
     public UsersController(UsersService usersService) {
@@ -86,7 +90,18 @@ public class UsersController {
     */
     
     
-    
+    @GetMapping("/isAdmin")
+    public ResponseEntity<String> isAdmin() {
+    	try {
+			if (jwtFilter.isAdmin()) 
+				return new ResponseEntity<String>("1$1#",HttpStatus.OK);
+			else return new ResponseEntity<String>("2#2#",HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     
     
     @ExceptionHandler(ResourceNotModifiedException.class)
