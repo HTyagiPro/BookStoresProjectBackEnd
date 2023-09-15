@@ -78,3 +78,29 @@ public class Rating {
 
     
 }
+
+
+
+
+/*
+ * CREATE TABLE Rating (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    book_id INT NOT NULL,
+    rating INT NOT NULL Default(0),
+    Constraint fk_customerRating FOREIGN KEY (customer_id) REFERENCES Customer(customerId),
+    Constraint fk_bookRating FOREIGN KEY (book_id) REFERENCES Books(bookId)
+);
+ * 
+ * */
+
+
+
+
+
+
+
+
+
+
+
