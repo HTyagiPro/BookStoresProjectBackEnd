@@ -23,8 +23,9 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "publisherID", referencedColumnName = "publisherID")
     private Publisher publisher;
-
-    @Column(name = "title", unique = true, nullable = false)
+    
+    
+	@Column(name = "title", unique = true, nullable = false)
     private String title;
 
     @Column(name = "category", nullable = false)
@@ -48,16 +49,8 @@ public class Book {
     @Column(name = "images", nullable = true)
     private String images;
     
-    
-
-    public String getImages() {
-		return images;
-	}
-
-
-	public void setImages(String images) {
-		this.images = images;
-	}
+    @Column(name = "rating", nullable = false)
+    private double rating;
 
 	@Column(name = "recordCreatedOn", nullable = true)
     private Timestamp recordCreatedOn = new Timestamp(new Date().getTime());
@@ -70,13 +63,14 @@ public class Book {
     
     
     public Book(Long bookID, Author author, Publisher publisher, String title, String category, BigDecimal price,
-			Long iSBNcode, Integer pageCount, Integer publishedYear, String bookCondition, Timestamp recordCreatedOn) {
+			Long iSBNcode, Integer pageCount, Integer publishedYear, String bookCondition, double rating , Timestamp recordCreatedOn) {
 		this.bookID = bookID;
 		this.author = author;
 		this.publisher = publisher;
 		this.title = title;
 		this.category = category;
 		this.price = price;
+		this.rating = rating;
 		this.iSBNcode = iSBNcode;
 		this.pageCount = pageCount;
 		this.publishedYear = publishedYear;
@@ -87,7 +81,7 @@ public class Book {
     
 
 	public Book(Long bookID, String title, String category, BigDecimal price, Long iSBNcode, Integer pageCount,
-			Integer publishedYear, String bookCondition, Timestamp recordCreatedOn) {
+			Integer publishedYear, String bookCondition, double rating, Timestamp recordCreatedOn) {
 		this.bookID = bookID;
 		this.title = title;
 		this.category = category;
@@ -96,12 +90,25 @@ public class Book {
 		this.pageCount = pageCount;
 		this.publishedYear = publishedYear;
 		this.bookCondition = bookCondition;
+		this.rating = rating;
 		this.recordCreatedOn = recordCreatedOn;
 	}
 
 
+	
+	
+	
+
 	//Getters, and Setters
-    
+	
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+	
 	public Long getBookID() {
 		return bookID;
 	}
@@ -190,13 +197,21 @@ public class Book {
 	public void setRecordCreatedOn(Timestamp recordCreatedOn) {
 		this.recordCreatedOn = recordCreatedOn;
 	}
+	
+	public String getImages() {
+			return images;
+	}
+
+	public void setImages(String images) {
+			this.images = images;
+	}
 
 	@Override
 	public String toString() {
 		return "Book:\n--------------------------------\nBook ID: " + bookID + "\n\t " + author + "\n\t"+ publisher + "\nTitle: " + title
 				+ "\nCategory: " + category + "\nPrice: " + price + "\nI.S.B.N. Code: " + iSBNcode + "\nPage Count: " + pageCount
 				+ "\nPublished Year: " + publishedYear + "\nBook Condition: " + bookCondition + "\nRecord Created On: "
-				+ recordCreatedOn + "\n--------------------------------\n";
+				+ rating +recordCreatedOn + "\n--------------------------------\n";
 	}
 
    

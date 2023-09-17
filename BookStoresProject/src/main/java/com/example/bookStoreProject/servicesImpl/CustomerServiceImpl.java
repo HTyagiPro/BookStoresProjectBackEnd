@@ -1,18 +1,17 @@
 package com.example.bookStoreProject.servicesImpl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.bookStoreProject.entity.Book;
 import com.example.bookStoreProject.entity.Customer;
 import com.example.bookStoreProject.repository.CustomerRepository;
 import com.example.bookStoreProject.services.CustomerService;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

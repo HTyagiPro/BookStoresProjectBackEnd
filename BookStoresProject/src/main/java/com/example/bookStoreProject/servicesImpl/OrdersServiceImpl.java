@@ -1,10 +1,15 @@
 package com.example.bookStoreProject.servicesImpl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.bookStoreProject.entity.Book;
@@ -15,7 +20,6 @@ import com.example.bookStoreProject.entity.OrderItems;
 import com.example.bookStoreProject.entity.Orders;
 import com.example.bookStoreProject.entity.Payments;
 import com.example.bookStoreProject.entity.Users;
-import com.example.bookStoreProject.jwt.JwtUtil;
 import com.example.bookStoreProject.jwt.MyUserDetailsService;
 import com.example.bookStoreProject.repository.BookRepository;
 import com.example.bookStoreProject.repository.CartItemRepository;
@@ -26,15 +30,9 @@ import com.example.bookStoreProject.repository.OrdersRepository;
 import com.example.bookStoreProject.repository.PaymentsRepository;
 import com.example.bookStoreProject.services.OrdersService;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-
 @Service
 public class OrdersServiceImpl implements OrdersService {
+	
     private final OrdersRepository ordersRepository;
 
     @Autowired
@@ -43,8 +41,6 @@ public class OrdersServiceImpl implements OrdersService {
     }
     
     
-    @Autowired 
-    private JwtUtil jwtUtil;
     @Autowired
     CustomerRepository customerRepository;
     
@@ -159,22 +155,31 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public Map<String, Object> getPlacedOrderDetails() {
+	public ResponseEntity<Map<String, Object>> getPlacedOrderDetails() {
 		// TODO Auto-generated method stub
-		
-		return ordersRepository.getOrderDetails();
+		try {
+			if (ordersRepository.getOrderDetails() != null)
+				return new ResponseEntity<Map<String, Object>>(ordersRepository.getOrderDetails(), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Map<String, Object> order = null;
+		return new ResponseEntity<Map<String, Object>>(order, HttpStatus.NO_CONTENT);
 	}
 
 	@Override
-	public List<Map<Object, Object>> getOrderHistory() {
+	public ResponseEntity<List<Map<Object, Object>>> getOrderHistory() {
 		// TODO Auto-generated method stub
 		try {
-			return ordersRepository.getOrderHistory();
+			List<Map<Object, Object>> orders = ordersRepository.getOrderHistory();
+			if(orders.isEmpty() == false)
+				return new ResponseEntity<List<Map<Object, Object>>>(orders, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return null;
+		List<Map<Object, Object>> orders = null;
+		return new ResponseEntity<List<Map<Object, Object>>>(orders, HttpStatus.NO_CONTENT);
 	}
 
 	@Override
@@ -221,7 +226,7 @@ public class OrdersServiceImpl implements OrdersService {
 			orderItem.setPriceOfUnitQuantity(c.getBook().getPrice());
 			orderItemsRepository.save(orderItem);
 			
-			Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
+			//Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
 			
 			
 //			if(inventory.getStockLevelNew() > c.getQuantity()) {
@@ -254,17 +259,19 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Map<Object, Object>> getMyOrderHistory() {
+	public ResponseEntity<List<Map<Object, Object>>> getMyOrderHistory() {
 		// TODO Auto-generated method stub
 		try {
 			Users user = myUserDetailsService.getUserDetails();
 			Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
-			return ordersRepository.getMyOrderHistory(customer.getCustomerID());
+			if (customer != null)
+			return new ResponseEntity<List<Map<Object, Object>>>(ordersRepository.getMyOrderHistory(customer.getCustomerID()),HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return null;
+		List<Map<Object, Object>> orders = null;
+		return new ResponseEntity<List<Map<Object, Object>>>(orders,HttpStatus.NOT_FOUND);
 	}
     
     

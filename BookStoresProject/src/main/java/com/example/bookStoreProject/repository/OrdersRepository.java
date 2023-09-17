@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.bookStoreProject.entity.Author;
 import com.example.bookStoreProject.entity.Orders;
 
 @Repository
@@ -29,9 +28,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	   public Map<String, Object> getOrderDetails();
 	
 	@Query(value = 
-			"SELECT c.cust_Name, c.email, c.cust_Address, o.orderID, o.order_Date, o.shipping_Address, " +
-                    "o.tax_Amount, o.discount_Amount, p.amount, p.payment_date, p.status, " +
-                    "oi.quantity, b.title, b.isbnCode, b.price " +
+			"SELECT * " +
                     "FROM orders o " +
                     "INNER JOIN payments p ON o.orderID = p.orderID " +
                     "LEFT JOIN customer c ON o.customerID = c.customerID " +
@@ -51,7 +48,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	@Query(value = 
 			"SELECT c.cust_Name, c.email, c.cust_Address, o.orderID, o.order_Date, o.shipping_Address,\r\n"
 			+ "                    o.tax_Amount, o.discount_Amount, p.amount, p.payment_date, p.status,\r\n"
-			+ "				oi.quantity, b.title, b.isbnCode, b.price\r\n"
+			+ "				oi.quantity,b.bookID, b.title, b.isbnCode, b.price\r\n"
 			+ "                   FROM orders o \r\n"
 			+ "                    INNER JOIN payments p ON o.orderID = p.orderID \r\n"
 			+ "                    LEFT JOIN customer c ON o.customerID = c.customerID \r\n"

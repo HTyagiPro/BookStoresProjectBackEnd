@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ratings")
+@Table(name = "rating")
 public class Rating {
 
     @Id
@@ -19,18 +19,20 @@ public class Rating {
     @JoinColumn(name = "book_id", referencedColumnName = "bookId")
     private Book book;
 
-    @Column(name = "rating_value")
-    private int ratingValue;
+    @Column(name = "rating")
+    private double ratingValue;
 
     // Constructors, getters, and setters (omitted for brevity)
 
     public Rating() {
     }
 
-    public Rating(Book book, int ratingValue) {
+    public Rating(Book book, double ratingValue) {
         this.book = book;
         this.ratingValue = ratingValue;
     }
+    
+    
 
     public Long getId() {
         return id;
@@ -48,15 +50,23 @@ public class Rating {
         this.book = book;
     }
 
-    public int getRatingValue() {
+    public double getRatingValue() {
         return ratingValue;
     }
 
-    public void setRatingValue(int ratingValue) {
+    public void setRatingValue(double ratingValue) {
         this.ratingValue = ratingValue;
-    }
+    }    
+    
+    public Customer getCustomer() {
+		return customer;
+	}
 
-    @Override
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

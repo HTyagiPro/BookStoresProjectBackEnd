@@ -44,7 +44,6 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     BookRepository bookRepository;
     
-    
 
     @Override
     public List<CartItem> getAllCartItems() {
@@ -67,17 +66,19 @@ public class CartItemServiceImpl implements CartItemService {
     }
     
     @Override
-	public List<CartItem> viewUserCart() {
+	public ResponseEntity<List<CartItem>> viewUserCart() {
 		try {
 			Users user = myUserDetailsService.getUserDetails();
 			Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
-			return cartItemRepository.getCartByCustomerID(customer.getCustomerID());
+			if(customer != null)
+				return new ResponseEntity<List<CartItem>> (cartItemRepository.getCartByCustomerID(customer.getCustomerID()), HttpStatus.OK);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return null;
+		List<CartItem> cart = null;
+		return new ResponseEntity<List<CartItem>> (cart, HttpStatus.OK);
 	}
 
 	@Override

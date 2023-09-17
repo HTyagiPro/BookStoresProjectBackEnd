@@ -74,22 +74,20 @@ public class OrdersController {
     	return new ResponseEntity<String>("Somwthing Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
-    
-    
-    
+      
     @GetMapping("/getOrderHistory")
-    public List<Map<Object, Object>> getOrderHistory(){
+    public ResponseEntity<List<Map<Object, Object>>> getOrderHistory(){
     	return ordersService.getOrderHistory();
     }
     
     @GetMapping("/getPlacedOrder")
-    public Map<String, Object> getPlacedOrder(){
+    public ResponseEntity<Map<String, Object>> getPlacedOrder(){
     	return ordersService.getPlacedOrderDetails();
     }
     
 
     @GetMapping("/getMyOrderHistory")
-    public List<Map<Object, Object>> getMyOrderHistory(){
+    public ResponseEntity<List<Map<Object, Object>>> getMyOrderHistory(){
     	return ordersService.getMyOrderHistory();
     }
     

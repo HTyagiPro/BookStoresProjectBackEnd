@@ -18,7 +18,7 @@ public interface CartItemService {
 
     void deleteCartItem(Long id);
     
-    List<CartItem> viewUserCart();
+    ResponseEntity<List<CartItem>> viewUserCart();
     
     public ResponseEntity<String> addToCart(Map<String, String> map);
 }
