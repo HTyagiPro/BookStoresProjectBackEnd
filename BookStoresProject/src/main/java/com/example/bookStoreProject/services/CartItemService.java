@@ -21,4 +21,6 @@ public interface CartItemService {
     ResponseEntity<List<CartItem>> viewUserCart();
     
     public ResponseEntity<String> addToCart(Map<String, String> map);
+    
+    public ResponseEntity<String> deleteFromCart(Map<String, String> map);
 }

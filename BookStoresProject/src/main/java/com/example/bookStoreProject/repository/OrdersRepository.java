@@ -48,7 +48,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	@Query(value = 
 			"SELECT c.cust_Name, c.email, c.cust_Address, o.orderID, o.order_Date, o.shipping_Address,\r\n"
 			+ "                    o.tax_Amount, o.discount_Amount, p.amount, p.payment_date, p.status,\r\n"
-			+ "				oi.quantity,b.bookID, b.title, b.isbnCode, b.price\r\n"
+			+ "				oi.quantity,b.bookID, b.title, b.isbnCode, b.price, b.images, b.rating\r\n"
 			+ "                   FROM orders o \r\n"
 			+ "                    INNER JOIN payments p ON o.orderID = p.orderID \r\n"
 			+ "                    LEFT JOIN customer c ON o.customerID = c.customerID \r\n"

@@ -113,6 +113,34 @@ public class CartItemServiceImpl implements CartItemService {
 		
 		return new ResponseEntity<String>("Something Went Wrong, Please Try Again After Sometime!!!", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	@Override
+	public ResponseEntity<String> deleteFromCart(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		try {
+			
+			Users user = myUserDetailsService.getUserDetails();
+			Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
+			CartItem cartItem = cartItemRepository.getCartByBookIdAndCustomerID(Long.parseLong(map.get("bookID")), customer.getCustomerID());
+			
+			if (Objects.isNull(cartItem)) {
+				return new ResponseEntity<String>("Item not Present!!", HttpStatus.NOT_FOUND);
+			}else {
+				if (cartItem.getQuantity() - 1 == 0) {
+					cartItemRepository.deleteById(cartItem.getId());
+					return new ResponseEntity<String>("Item removed from cart!!!", HttpStatus.OK);
+				}else {
+					cartItem.setQuantity(cartItem.getQuantity() - 1);
+					cartItemRepository.save(cartItem);
+					return new ResponseEntity<String>("Item quantity updated!!!", HttpStatus.OK);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
 
 
