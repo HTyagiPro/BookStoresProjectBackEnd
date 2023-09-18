@@ -47,13 +47,17 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	
 	@Query(value = 
 			"SELECT c.cust_Name, c.email, c.cust_Address, o.orderID, o.order_Date, o.shipping_Address,\r\n"
-			+ "                    o.tax_Amount, o.discount_Amount, p.amount, p.payment_date, p.status,\r\n"
-			+ "				oi.quantity,b.bookID, b.title, b.isbnCode, b.price, b.images, b.rating\r\n"
-			+ "                   FROM orders o \r\n"
-			+ "                    INNER JOIN payments p ON o.orderID = p.orderID \r\n"
-			+ "                    LEFT JOIN customer c ON o.customerID = c.customerID \r\n"
-			+ "                    LEFT JOIN order_items oi ON o.orderID = oi.orderID \r\n"
-			+ "                    LEFT JOIN books b ON b.bookID = oi.bookID where o.customerID=:customerID",
+			+ "       o.tax_Amount, o.discount_Amount, p.amount, p.payment_date, p.status,\r\n"
+			+ "       oi.quantity, b.bookID, b.title, b.isbnCode, b.price, b.images, b.rating, b.category, b.published_Year, b.book_condition,  \r\n"
+			+ "       a.author_Name, pb.publisher_Name\r\n"
+			+ "FROM orders o\r\n"
+			+ "INNER JOIN payments p ON o.orderID = p.orderID\r\n"
+			+ "LEFT JOIN customer c ON o.customerID = c.customerID\r\n"
+			+ "LEFT JOIN order_items oi ON o.orderID = oi.orderID\r\n"
+			+ "LEFT JOIN books b ON b.bookID = oi.bookID\r\n"
+			+ "LEFT JOIN author a ON b.authorID = a.authorID\r\n"
+			+ "LEFT JOIN publisher pb ON b.publisherID = pb.publisherID\r\n"
+			+ "WHERE o.customerID =:customerID",
 	        nativeQuery = true)
 	   public List<Map<Object, Object>> getMyOrderHistory(@Param("customerID") Long customerID);
 	
