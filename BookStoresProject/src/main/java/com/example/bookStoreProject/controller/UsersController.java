@@ -93,9 +93,10 @@ public class UsersController {
     @GetMapping("/isAdmin")
     public ResponseEntity<String> isAdmin() {
     	try {
-			if (jwtFilter.isAdmin()) 
+			if (jwtFilter.isAdmin()) {
 				return new ResponseEntity<String>("1$1#",HttpStatus.OK);
-			else return new ResponseEntity<String>("2#2#",HttpStatus.OK);
+			
+			}else return new ResponseEntity<String>("2#2#",HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

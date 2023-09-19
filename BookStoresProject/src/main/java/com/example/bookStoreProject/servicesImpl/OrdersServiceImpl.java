@@ -122,7 +122,7 @@ public class OrdersServiceImpl implements OrdersService {
 			payment.setOrder(order);
 			payment.setPaymentDate(LocalDateTime.now());
 			payment.setAmount(BigDecimal.valueOf(totalAmount));
-			payment.setStatus("Paid");
+			payment.setStatus("Pending");
 			
 			
 			if(Objects.isNull(payment) || Objects.isNull(order) || Objects.isNull(orderItem) || Objects.isNull(book)|| Objects.isNull(customer)) {
@@ -224,20 +224,18 @@ public class OrdersServiceImpl implements OrdersService {
 			orderItem.setCustomer(customer);
 			orderItem.setQuantity(c.getQuantity());
 			orderItem.setPriceOfUnitQuantity(c.getBook().getPrice());
-			orderItemsRepository.save(orderItem);
+//			orderItemsRepository.save(orderItem);
 			
-			//Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
+			Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
 			
-			
-//			if(inventory.getStockLevelNew() > c.getQuantity()) {
-//				System.out.println("Here wrong -----------------");
-//				inventory.setStockLevelNew(inventory.getStockLevelNew()- c.getQuantity());
-//				inventoryRepository.save(inventory);
-//				orderItemsRepository.save(orderItem);
-//				
-//			}else {
-//				return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
-//			}
+			if(inventory.getStockLevelNew() >= c.getQuantity()) {
+				inventory.setStockLevelNew(inventory.getStockLevelNew()- c.getQuantity());
+				inventoryRepository.save(inventory);
+				orderItemsRepository.save(orderItem);
+				
+			}else {
+				return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
+			}
 	}
 		
 		Payments payment = new Payments();
