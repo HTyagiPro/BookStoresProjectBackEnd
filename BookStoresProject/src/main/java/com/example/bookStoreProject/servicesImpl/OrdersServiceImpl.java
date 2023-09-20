@@ -145,7 +145,7 @@ public class OrdersServiceImpl implements OrdersService {
 				paymentsRepository.save(payment);
 				return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
 			}else {
-				return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<String>("Out Of Stocks!!!", HttpStatus.INTERNAL_SERVER_ERROR);
 			}			
 		} catch (Exception e) {
 			// TODO: handle exception
