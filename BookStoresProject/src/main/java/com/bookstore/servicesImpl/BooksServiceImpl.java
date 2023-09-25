@@ -71,7 +71,7 @@ public class BooksServiceImpl implements BooksService {
     
     // Add a book using a map of book details
     @Override
-    public ResponseEntity<String> addBooks(Map<String, String> map) {
+    public ResponseEntity<String> addBooks(Map<String, String> map) throws Exception{
         try {
             Book book = configureBook(map);
             if (Objects.isNull(book) == false) {
@@ -80,16 +80,18 @@ public class BooksServiceImpl implements BooksService {
             }
             return new ResponseEntity<String>("Book Can not be added!!!", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+        //return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     // Configure and create a book entity from a map of book details
-    public Book configureBook(Map<String, String> map) {
+    public Book configureBook(Map<String, String> map) throws NullPointerException {
         Optional<Author> author = authorRepository.findById(Long.parseLong(map.get("author")));
         Optional<Publisher> publisher = publisherRepository.findById(Long.parseLong(map.get("publisher")));
         
+        try {
         Book book = new Book();
         book.setTitle(map.get("title"));
         book.setBookCondition(map.get("condition"));
@@ -101,8 +103,12 @@ public class BooksServiceImpl implements BooksService {
         book.setPublisher(publisher.get());
         book.setPageCount(Integer.parseInt(map.get("pages")));
         book.setImages(map.get("images"));
-        
         return book;
+        }catch (Exception e) {
+			// TODO: handle exception
+        	//e.printStackTrace();
+		}
+        return new Book();
     }
 
     // Search for a book by various criteria

@@ -13,7 +13,7 @@ public interface BooksService {
     Book createBook(Book book);
     Book updateBook(Long bookId, Book book);
     void deleteBook(Long bookId);
-    public ResponseEntity<String> addBooks(Map<String, String>map);
+    public ResponseEntity<String> addBooks(Map<String, String>map) throws Exception;
     public ResponseEntity<Book> searchBook(Map<String, String>map);
     public ResponseEntity<List<Book>> searchBooks(Map<String, String>map);
 }
