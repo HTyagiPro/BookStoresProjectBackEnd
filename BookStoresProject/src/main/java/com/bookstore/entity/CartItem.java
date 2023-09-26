@@ -15,9 +15,11 @@ public class CartItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-  
+    @Column(name = "conditions", nullable = false)
+    private String conditions = "New";
 
-    @Column(name = "recordCreatedOn", nullable = false)
+    
+	@Column(name = "recordCreatedOn", nullable = false)
     private Timestamp recordCreatedOn;
 
 	
@@ -30,19 +32,21 @@ public class CartItem {
     private Customer customer;
     
 
-    public CartItem(Long id, Integer quantity, Timestamp recordCreatedOn, Book book,
+    public CartItem(Long id, Integer quantity, String conditions, Timestamp recordCreatedOn, Book book,
 			Customer customer) {
 		this.id = id;
 		this.quantity = quantity;
+		this.conditions = conditions;
 		this.recordCreatedOn = recordCreatedOn;
 		this.book = book;
 		this.customer = customer;
 	}
 
 
-	public CartItem(Long id, Integer quantity, Timestamp recordCreatedOn, Book book) {
+	public CartItem(Long id, Integer quantity, String conditions, Timestamp recordCreatedOn, Book book) {
 		this.id = id;
 		this.quantity = quantity;
+		this.conditions = conditions;
 		this.recordCreatedOn = recordCreatedOn;
 		this.book = book;
 	}
@@ -52,9 +56,10 @@ public class CartItem {
 	}
 
 
-	public CartItem(Long id, Integer quantity, BigDecimal priceOfUnitQuantity, Timestamp recordCreatedOn) {
+	public CartItem(Long id, Integer quantity, String conditions, BigDecimal priceOfUnitQuantity, Timestamp recordCreatedOn) {
 		this.id = id;
 		this.quantity = quantity;
+		this.conditions = conditions;
 		this.recordCreatedOn = recordCreatedOn;
 	}
 
@@ -109,11 +114,20 @@ public class CartItem {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	
+	public String getConditions() {
+		return conditions;
+	}
+
+
+	public void setConditions(String conditions) {
+		this.conditions = conditions;
+	}
 
 
 	@Override
 	public String toString() {
-		return "Cart Item\n----------------------\n\tID: " + id +"\n\t" +customer + "\n\tQuantity: " + quantity + "\n\tRecord Created On: " + recordCreatedOn + "\n\tBook: " + book + "\n";
+		return "Cart Item\n----------------------\n\tID: " + id +"\n\t" +customer + "\n\tQuantity: " + quantity + "\n\tCondition: " + conditions + "\n\tRecord Created On: " + recordCreatedOn + "\n\tBook: " + book + "\n";
 	}
     
     

@@ -89,19 +89,37 @@ public class CartItemServiceImpl implements CartItemService {
             Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
             Book book = bookRepository.findById(Long.parseLong(map.get("bookID"))).get();
 
-            CartItem cartItem = cartItemRepository.getCartByBookIdAndCustomerID(book.getBookID(), customer.getCustomerID());
-
-            if (Objects.isNull(cartItem)) {
-                cartItem = new CartItem();
-                cartItem.setBook(bookRepository.findById(Long.parseLong(map.get("bookID"))).get());
-                cartItem.setCustomer(customer);
-                cartItem.setQuantity(1);
-                cartItem.setRecordCreatedOn(new Timestamp(new Date().getTime()));
-                cartItemRepository.save(cartItem);
+            //CartItem cartItem = cartItemRepository.getCartByBookIdAndCustomerID(book.getBookID(), customer.getCustomerID());
+            
+            CartItem cartItemC = cartItemRepository.getCartByBookIdAndCustomerIDAndCondition(book.getBookID(), customer.getCustomerID(), map.get("condition"));
+            
+            
+            if (Objects.isNull(cartItemC)) {
+                cartItemC = new CartItem();
+                cartItemC.setBook(bookRepository.findById(Long.parseLong(map.get("bookID"))).get());
+                cartItemC.setCustomer(customer);
+                cartItemC.setQuantity(1);
+                cartItemC.setConditions(map.get("condition"));
+                cartItemC.setRecordCreatedOn(new Timestamp(new Date().getTime()));
+                cartItemRepository.save(cartItemC);
             } else {
-                cartItem.setQuantity(cartItem.getQuantity() + 1);
-                cartItemRepository.save(cartItem);
+                cartItemC.setQuantity(cartItemC.getQuantity() + 1);
+                cartItemRepository.save(cartItemC);
             }
+
+            
+            
+//            if (Objects.isNull(cartItem)) {
+//                cartItem = new CartItem();
+//                cartItem.setBook(bookRepository.findById(Long.parseLong(map.get("bookID"))).get());
+//                cartItem.setCustomer(customer);
+//                cartItem.setQuantity(1);
+//                cartItem.setRecordCreatedOn(new Timestamp(new Date().getTime()));
+//                cartItemRepository.save(cartItem);
+//            } else {
+//                cartItem.setQuantity(cartItem.getQuantity() + 1);
+//                cartItemRepository.save(cartItem);
+//            }
             return new ResponseEntity<String>("Item Added To Cart Successfully!!!", HttpStatus.OK);
 
         } catch (Exception e) {
@@ -117,8 +135,11 @@ public class CartItemServiceImpl implements CartItemService {
         try {
             Users user = myUserDetailsService.getUserDetails();
             Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
-            CartItem cartItem = cartItemRepository.getCartByBookIdAndCustomerID(Long.parseLong(map.get("bookID")), customer.getCustomerID());
+            //CartItem cartItemC = cartItemRepository.getCartByBookIdAndCustomerID(Long.parseLong(map.get("bookID")), customer.getCustomerID());
 
+            CartItem cartItem = cartItemRepository.getCartByBookIdAndCustomerIDAndCondition(Long.parseLong(map.get("bookID")), customer.getCustomerID(), map.get("condition"));
+            
+            
             if (Objects.isNull(cartItem)) {
                 return new ResponseEntity<String>("Item not Present!!", HttpStatus.NOT_FOUND);
             } else {

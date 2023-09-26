@@ -105,8 +105,16 @@ public class OrdersServiceImpl implements OrdersService {
             order.setCustomer(customer);
             order.setShippingAddress(map.get("address"));
             order.setOrderDate(LocalDateTime.now());
-            double discount = 10 * Double.valueOf(book.get().getPrice().toString()) *
+            
+            double discount;
+            
+            discount = 10 * Double.valueOf(book.get().getPrice().toString()) *
                               Integer.parseInt(map.get("quantity")) / 100;
+            
+            if(map.get("condition").equals("Used")) {
+            	discount *= 2;
+            }
+            
             order.setDiscountAmount(BigDecimal.valueOf(discount));
             double totalAmount = Integer.parseInt(map.get("quantity")) *
                                  Double.valueOf(book.get().getPrice().toString()) +
@@ -145,14 +153,14 @@ public class OrdersServiceImpl implements OrdersService {
                 ordersRepository.save(order);
                 orderItemsRepository.save(orderItem);
                 paymentsRepository.save(payment);
-                return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
+                return new ResponseEntity<String>("Proceed for Payments...", HttpStatus.OK);
             } else if (map.get("condition").equals("Used") && inventory.getStockLevelUsed() > Integer.parseInt(map.get("quantity"))) {
                 inventory.setStockLevelUsed(inventory.getStockLevelUsed() - Integer.parseInt(map.get("quantity")));
                 inventoryRepository.save(inventory);
                 ordersRepository.save(order);
                 orderItemsRepository.save(orderItem);
                 paymentsRepository.save(payment);
-                return new ResponseEntity<String>("Order Placed Successfully", HttpStatus.OK);
+                return new ResponseEntity<String>("Proceed for Payments...", HttpStatus.OK);
             } else {
                 return new ResponseEntity<String>("Out Of Stocks!!!", HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -195,15 +203,26 @@ public class OrdersServiceImpl implements OrdersService {
         Users user = myUserDetailsService.getUserDetails();
         Customer customer = customerRepository.getCustomerByEmail(user.getEmail());
         List<CartItem> cart = cartItemRepository.getCartByCustomerID(customer.getCustomerID());
-
+        
+        
+        
+        
         double subtotal = 0;
         for (CartItem c : cart) {
             subtotal = subtotal + Double.valueOf(c.getBook().getPrice().toString()) * Double.valueOf(c.getQuantity());
+            if (c.getConditions().equals("Used")) {
+				subtotal = subtotal - 10 * Double.valueOf(c.getBook().getPrice().toString()) * c.getQuantity() / 100;
+			}
+            System.out.println(c + "--------------" + subtotal);
         }
 
         double discount = 10 * subtotal / 100;
+        
+        
         double totalAmount = subtotal + 18 * subtotal / 100 - discount;
 
+        
+        
         Orders order = new Orders();
         order.setCustomer(customer);
         order.setShippingAddress(map.get("address"));
@@ -225,8 +244,16 @@ public class OrdersServiceImpl implements OrdersService {
 
             Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
 
-            if (inventory.getStockLevelNew() >= c.getQuantity()) {
+            if (inventory.getStockLevelNew() >= c.getQuantity() && c.getConditions().equals("New")) {
                 inventory.setStockLevelNew(inventory.getStockLevelNew() - c.getQuantity());
+                inventoryRepository.save(inventory);
+                orderItemsRepository.save(orderItem);
+            } else {
+                return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
+            }
+            
+            if (inventory.getStockLevelUsed() >= c.getQuantity() && c.getConditions().equals("Used")) {
+                inventory.setStockLevelUsed(inventory.getStockLevelUsed() - c.getQuantity());
                 inventoryRepository.save(inventory);
                 orderItemsRepository.save(orderItem);
             } else {

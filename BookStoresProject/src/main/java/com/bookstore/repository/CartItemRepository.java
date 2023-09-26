@@ -26,4 +26,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 	@Query(nativeQuery = true,value = "select * from cart_item where customerID=:customerID AND bookID=:bookID And quantity > 0")
 	CartItem getCartByBookIdAndCustomerID(@Param("bookID")Long bookID,@Param("customerID")Long customerID);
 	
+	@Query(nativeQuery = true,value = "select * from cart_item where customerID=:customerID AND bookID=:bookID AND quantity > 0 AND conditions LIKE :condition")
+	CartItem getCartByBookIdAndCustomerIDAndCondition(@Param("bookID")Long bookID,@Param("customerID")Long customerID, @Param("condition") String condition);
 }
