@@ -61,7 +61,7 @@ public class BookController {
             return bookService.addBooks(map);
         } catch (Exception e) {
             // Handle any exceptions that may occur and log the error
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         // If an exception occurs, return an internal server error response
         return new ResponseEntity<String>("Something Went Wrong!!!", HttpStatus.INTERNAL_SERVER_ERROR);

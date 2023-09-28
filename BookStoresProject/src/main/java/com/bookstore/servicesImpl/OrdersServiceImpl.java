@@ -213,7 +213,6 @@ public class OrdersServiceImpl implements OrdersService {
             if (c.getConditions().equals("Used")) {
 				subtotal = subtotal - 10 * Double.valueOf(c.getBook().getPrice().toString()) * c.getQuantity() / 100;
 			}
-            System.out.println(c + "--------------" + subtotal);
         }
 
         double discount = 10 * subtotal / 100;
@@ -233,7 +232,7 @@ public class OrdersServiceImpl implements OrdersService {
         ordersRepository.save(order);
 
         order = ordersRepository.getLastOrder();
-
+        System.out.println("--------------------------------------");
         for (CartItem c : cart) {
             OrderItems orderItem = new OrderItems();
             orderItem.setBook(c.getBook());
