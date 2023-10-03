@@ -207,6 +207,7 @@ public class OrdersServiceImpl implements OrdersService {
         
         
         
+        
         double subtotal = 0;
         for (CartItem c : cart) {
             subtotal = subtotal + Double.valueOf(c.getBook().getPrice().toString()) * Double.valueOf(c.getQuantity());
@@ -232,7 +233,6 @@ public class OrdersServiceImpl implements OrdersService {
         ordersRepository.save(order);
 
         order = ordersRepository.getLastOrder();
-        System.out.println("--------------------------------------");
         for (CartItem c : cart) {
             OrderItems orderItem = new OrderItems();
             orderItem.setBook(c.getBook());
@@ -240,26 +240,22 @@ public class OrdersServiceImpl implements OrdersService {
             orderItem.setCustomer(customer);
             orderItem.setQuantity(c.getQuantity());
             orderItem.setPriceOfUnitQuantity(c.getBook().getPrice());
-
+            
+            
             Inventory inventory = inventoryRepository.getInventoryByBookID(c.getBook().getBookID());
-
+            
+            
             if (inventory.getStockLevelNew() >= c.getQuantity() && c.getConditions().equals("New")) {
                 inventory.setStockLevelNew(inventory.getStockLevelNew() - c.getQuantity());
-                inventoryRepository.save(inventory);
-                orderItemsRepository.save(orderItem);
-            } else {
-                return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
-            }
-            
-            if (inventory.getStockLevelUsed() >= c.getQuantity() && c.getConditions().equals("Used")) {
+                inventoryRepository.saveAndFlush(inventory);
+            } else if (inventory.getStockLevelUsed() >= c.getQuantity() && c.getConditions().equals("Used")) {
                 inventory.setStockLevelUsed(inventory.getStockLevelUsed() - c.getQuantity());
-                inventoryRepository.save(inventory);
-                orderItemsRepository.save(orderItem);
+                inventoryRepository.saveAndFlush(inventory);
             } else {
                 return new ResponseEntity<String>("Item Out of Stock!!!", HttpStatus.BAD_REQUEST);
             }
+            orderItemsRepository.saveAndFlush(orderItem);
         }
-
         Payments payment = new Payments();
         payment.setCustomer(customer);
         payment.setOrder(order);
@@ -273,7 +269,7 @@ public class OrdersServiceImpl implements OrdersService {
         }
 
         cartItemRepository.deleteCartByCustomerID(customer.getCustomerID());
-        return new ResponseEntity<String>("Order Placed Successfully!!!", HttpStatus.OK);
+        return new ResponseEntity<String>("Proceed for payment...!!!", HttpStatus.OK);
     }
 
     // Get the order history for the current user
