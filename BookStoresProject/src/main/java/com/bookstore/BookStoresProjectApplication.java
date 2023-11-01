@@ -11,11 +11,12 @@ import org.springframework.web.client.RestTemplate;
 public class BookStoresProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BookStoresProjectApplication.class, args);
-		
+		SpringApplication.run(BookStoresProjectApplication.class, args);	
 	}
+	
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+	
 }
