@@ -1,14 +1,43 @@
+
+
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:8-jre-slim
+#FROM openjdk:8-jre-slim
+#FROM tomcat:9-jre11
 
 # Set the working directory within the container
-WORKDIR /app
+#WORKDIR /app
 
 # Copy the JAR file from your project's directory to the container
-COPY target/BookStoresProject.jar /app/BookStoresProject.jar
+#COPY target/* /app/
+
+# Expose the port your Spring Boot application will run on (adjust as needed)
+#EXPOSE 8089
+
+# Define the command to run your application
+#CMD ["java", "-jar", "BookStoresProject.jar"]
+
+#--------------------------------------------------------------------------------------------------
+
+
+
+# Use the official Tomcat image with Java 11
+FROM tomcat:9-jre11
+FROM openjdk:8-jre-slim
+
+# Remove the default Tomcat webapps to clean up
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Set the working directory within the container
+WORKDIR /usr/local/tomcat/webapps
+
+# Copy the WAR file from your project's directory to the container
+COPY target/* .
 
 # Expose the port your Spring Boot application will run on (adjust as needed)
 EXPOSE 8089
 
 # Define the command to run your application
+CMD ["catalina.sh", "run"]
 CMD ["java", "-jar", "BookStoresProject.jar"]
+
+
