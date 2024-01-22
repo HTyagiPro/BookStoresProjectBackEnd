@@ -1,0 +1,21 @@
+[
+     {
+          "name": "mynetwork",
+          "id": "e4c47038b1130d239a59f4e2debda04955dc9ad34bfd01652b4675508d51395c",
+          "driver": "bridge",
+          "network_interface": "podman2",
+          "created": "2023-11-01T12:16:47.6258735+05:30",
+          "subnets": [
+               {
+                    "subnet": "10.89.1.0/24",
+                    "gateway": "10.89.1.1"
+               }
+          ],
+          "ipv6_enabled": false,
+          "internal": false,
+          "dns_enabled": true,
+          "ipam_options": {
+               "driver": "host-local"
+          }
+     }
+]
